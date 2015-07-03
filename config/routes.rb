@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
-  resources :users
+
+  resources :entries, only: [:create, :destroy, :show] do
+    resources :comments
+  end
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
+  resources :relationships,       only: [:create, :destroy]
 
   root "demo_pages#home"
   get "help" => "demo_pages#help"
